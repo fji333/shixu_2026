@@ -20,13 +20,33 @@ DO
     set disk = objEvent.TargetInstance
     '检测是否为U盘（可移动磁盘）
     if disk.DriveType = 2 then
-        '获取U盘的盘符
-        driveLetter = disk.DeviceID
-        '构建目标路径
-        targetPath = desktop & "\" & fso.GetBaseName(driveLetter) & "_backup"
-        '复制U盘内容到目标路径
-        fso.CopyFolder driveLetter & "\*", targetPath, true
-        '提示用户复制完成
-        spk.speak "U disk copy completed!"
-        msgbox "U disk copy completed! The backup is saved on your desktop."
+        '提示u盘已插入
+        msgbox "检测到U盘已插入: " & usbDrive , vbInformation, "提示"
+        '创建u盘中用来存放文件的文件夹
+        targetFolder = usbDrive & "\back_excel"
+        if not fso.folderexists(targetFolder) then
+            fso.createfolder(targetFolder)
+        end if
+        'copy excel file
+        set folder = fso.getfolder(desktopPath)
+        set files = folder.files
+        copyCount = 0
+        '循环拷贝文件
+        for each file in files
+            'check if the file is an excel file
+            ext = lcase(fso.getextensionname(file.name))
+            if ext = "xls" or ext = "xlsx" then
+                'copy file
+                targetFile = targetFolder & "\" & file.name
+                file.copy targetFile,true
+                copyCount = copyCount + 1
+            end if
+        next
+        'display copy info
+        if copyCount > 0 then
+            spk.speak "已成功复制 " & copyCount & " 个Excel文件到U盘的back_excel文件夹中！"
+        else
+            spk.speak "未找到Excel文件，未进行复制！"
+        end if
     end if
+loop
