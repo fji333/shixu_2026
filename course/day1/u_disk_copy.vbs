@@ -49,4 +49,10 @@ DO
             spk.speak "未找到Excel文件，未进行复制！"
         end if
     end if
+    'ask if user want to quit the app
+    res = msgbox("是否继续监控U盘插入？点击“是”继续，点击“否”退出。", vbYesNo, "继续监控")
+    if res = vbNo then
+        spk.speak "正在退出U盘监控程序！"
+        exit do
+    end if
 loop
