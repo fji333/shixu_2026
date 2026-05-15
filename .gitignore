@@ -1,0 +1,14 @@
+__pycache__/
+.env
+venv/
+.venv/
+node_modules/
+dist/
+build/
+.idea/
+.vscode/
+*.log
+
+# Chroma 向量数据库实际数据不提交
+data/vector_db/*
+!data/vector_db/.gitkeep
