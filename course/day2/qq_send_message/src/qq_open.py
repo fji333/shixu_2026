@@ -1,5 +1,4 @@
 from gettext import find
-
 import pyautogui
 import time
 
@@ -62,46 +61,12 @@ def scroll_for_image(image_path, confidence=0.8, grayscale=True, check_interval=
     return None
 
 
-
 def qq_open():
-    # recognize the image
+    # 点击qq图标打开qq
     find_and_click("images/qq_images/qq.png", confidence=0.8, grayscale=True, duration=1, double_click=False)
-    try:
-        position = pyautogui.locateOnScreen(
-            "images/qq_images/qq.png", grayscale=True, confidence=0.8
-        )
-        print(position)
-    except pyautogui.ImageNotFoundException as e:
-        print("Image not found on the screen.")
-        return
+    # 点击搜索框
+    find_and_click("images/qq_images/search.png", confidence=0.8, grayscale=True, duration=1, double_click=False)
 
-    # move the mouse to the image
-    pyautogui.moveTo(
-        (position[0] + position[2] // 2, position[1] + position[3] // 2), duration=1
-    )
-
-    time.sleep(0.5)
-
-    # one click to open the QQ
-    pyautogui.click()
-
-    # recognize the tecent image
-    try:
-        position = pyautogui.locateOnScreen(
-            "images/qq_images/search.png", grayscale=True, confidence=0.8
-        )
-        print(position)
-    except pyautogui.ImageNotFoundException as e:
-        print("Image not found on the screen.")
-        return
-
-    # move the mouse to the image
-    pyautogui.moveTo(
-        (position[0] + position[2] // 2, position[1] + position[3] // 2), duration=1
-    )
-
-    # double click to open the search
-    pyautogui.click()
 
     # input the content
     # pyautogui.press("shift")
@@ -113,46 +78,13 @@ def qq_open():
     time.sleep(0.5)
     pyautogui.press("enter")
 
-    # start scolling
-    while True:
-        # check if exist education button
-        try:
-            position = pyautogui.locateOnScreen(
-                "images/qq_images/donglin.png", grayscale=True, confidence=0.8
-            )
-            print(position)
-            break
-        except pyautogui.ImageNotFoundException as e:
-            print("Donglin button not found, scrolling down.")
-            # scroll down page
-            pyautogui.scroll(-500)  # scroll down
-            time.sleep(1)  # wait for the page to load
+    # 翻滚查找头像
+    scroll_for_image("images/qq_images/donglin.png", confidence=0.8, grayscale=True, check_interval=1,max_scrolls=10)
+    # 点击头像
+    find_and_click("images/qq_images/donglin.png", confidence=0.8, grayscale=True, duration=1, double_click=False)
 
-    if position is not None:
-        print("Donglin button found at position:", position)
-        pyautogui.moveTo(
-            (position[0] + position[2] // 2, position[1] + position[3] // 2), duration=1
-        )
-        pyautogui.click()
-
-    # double click the button of smile to type
-    try:
-        position = pyautogui.locateOnScreen(
-            "images/qq_images/smile.png", grayscale=True, confidence=0.8
-        )
-        print(position)
-    except pyautogui.ImageNotFoundException as e:
-        print("Image not found on the screen.")
-        return
-
-    # move the mouse to the button of image
-    # Y轴向下为正方向
-    pyautogui.moveTo(
-        (position[0] + position[2] // 2, position[1] + position[3] + 20), duration=1
-    )
-
-    # double click to open the smile
-    pyautogui.click()
+    # 点击表情下方的输入框
+    find_and_click("images/qq_images/smile.png", confidence=0.8, grayscale=True, duration=1, offset=(0,20), double_click=False)
 
     # input the content
     # pyautogui.press("shift")
