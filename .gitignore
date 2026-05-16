@@ -12,3 +12,9 @@ build/
 # Chroma 向量数据库实际数据不提交
 data/vector_db/*
 !data/vector_db/.gitkeep
+
+
+# python 
+__pycache__/
+*.pyc
+.venv/

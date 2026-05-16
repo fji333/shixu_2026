@@ -1,8 +1,17 @@
 from gettext import find
-import pyautogui
+import pyautogui as ptg
 import time
+import pyttsx3  # 语音播报库
 
-def find_and_click(image_path, confidence=0.8, grayscale=True, duration=1,offset=(0,0),double_click=False):
+
+def find_and_click(
+    image_path,
+    confidence=0.8,
+    grayscale=True,
+    duration=1,
+    offset=(0, 0),
+    double_click=False,
+):
     """_summary_:查找图片,移动到位置并点击
 
     Args:
@@ -14,25 +23,32 @@ def find_and_click(image_path, confidence=0.8, grayscale=True, duration=1,offset
     """
 
     try:
-        position = pyautogui.locateOnScreen(
+        position = ptg.locateOnScreen(
             image_path, grayscale=grayscale, confidence=confidence
         )
         print(position)
-    except pyautogui.ImageNotFoundException as e:
+    except ptg.ImageNotFoundException as e:
         print(f"Image {image_path} not found on the screen.")
         return False
-    
-    pyautogui.moveTo(
-        (position[0] + position[2] // 2 + offset[0], position[1] + position[3] // 2 + offset[1]), duration=duration
-    ) 
+
+    ptg.moveTo(
+        (
+            position[0] + position[2] // 2 + offset[0],
+            position[1] + position[3] // 2 + offset[1],
+        ),
+        duration=duration,
+    )
 
     if double_click:
-        pyautogui.doubleClick()
+        ptg.doubleClick()
     else:
-        pyautogui.click()
+        ptg.click()
     return True
 
-def scroll_for_image(image_path, confidence=0.8, grayscale=True, check_interval=1,max_scrolls=10):
+
+def scroll_for_image(
+    image_path, confidence=0.8, grayscale=True, check_interval=1, max_scrolls=10
+):
     """滚轮查找图片
 
     Args:
@@ -46,14 +62,14 @@ def scroll_for_image(image_path, confidence=0.8, grayscale=True, check_interval=
     scroll_count = 0
     while scroll_count < max_scrolls:
         try:
-            position = pyautogui.locateOnScreen(
+            position = ptg.locateOnScreen(
                 image_path, grayscale=grayscale, confidence=confidence
             )
             print(position)
             return position
-        except pyautogui.ImageNotFoundException as e:
+        except ptg.ImageNotFoundException as e:
             print(f"Image {image_path} not found, scrolling down.")
-            pyautogui.scroll(-500)  # scroll down
+            ptg.scroll(-500)  # scroll down
             time.sleep(check_interval)  # wait for the page to load
             scroll_count += 1
 
@@ -63,37 +79,67 @@ def scroll_for_image(image_path, confidence=0.8, grayscale=True, check_interval=
 
 def qq_open():
     # 点击qq图标打开qq
-    find_and_click("images/qq_images/qq.png", confidence=0.8, grayscale=True, duration=1, double_click=False)
+    find_and_click(
+        "images/qq_images/qq.png",
+        confidence=0.8,
+        grayscale=True,
+        duration=1,
+        double_click=False,
+    )
     # 点击搜索框
-    find_and_click("images/qq_images/search.png", confidence=0.8, grayscale=True, duration=1, double_click=False)
-
+    find_and_click(
+        "images/qq_images/search.png",
+        confidence=0.8,
+        grayscale=True,
+        duration=1,
+        double_click=False,
+    )
 
     # input the content
-    # pyautogui.press("shift")
-    pyautogui.write("shaodonglin")
+    # ptg.press("shift")
+    ptg.write("shaodonglin")
 
     # push engter browse url
     time.sleep(0.5)
-    pyautogui.press("space")
+    ptg.press("space")
     time.sleep(0.5)
-    pyautogui.press("enter")
+    ptg.press("enter")
 
     # 翻滚查找头像
-    scroll_for_image("images/qq_images/donglin.png", confidence=0.8, grayscale=True, check_interval=1,max_scrolls=10)
+    scroll_for_image(
+        "images/qq_images/donglin.png",
+        confidence=0.8,
+        grayscale=True,
+        check_interval=1,
+        max_scrolls=10,
+    )
     # 点击头像
-    find_and_click("images/qq_images/donglin.png", confidence=0.8, grayscale=True, duration=1, double_click=False)
+    find_and_click(
+        "images/qq_images/donglin.png",
+        confidence=0.8,
+        grayscale=True,
+        duration=1,
+        double_click=False,
+    )
 
     # 点击表情下方的输入框
-    find_and_click("images/qq_images/smile.png", confidence=0.8, grayscale=True, duration=1, offset=(0,20), double_click=False)
+    find_and_click(
+        "images/qq_images/smile.png",
+        confidence=0.8,
+        grayscale=True,
+        duration=1,
+        offset=(0, 20),
+        double_click=False,
+    )
 
     # input the content
-    # pyautogui.press("shift")
-    pyautogui.write("hi, donglin")
+    # ptg.press("shift")
+    ptg.write("hi, donglin")
 
     # push engter browse url
     time.sleep(0.5)
-    pyautogui.press("enter")
-    pyautogui.press("enter")
+    ptg.hotkey("enter")
+    ptg.hotkey("enter")
 
 
 if __name__ == "__main__":

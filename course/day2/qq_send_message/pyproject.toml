@@ -8,4 +8,17 @@ dependencies = [
     "pyautogui>=0.9.54",
     "pillow>=11.0.0",
     "opencv-python>=4.10.0.0",
+    "pyttsx3>=2.99",
 ]
+
+[[tool.uv.index]]
+name = "tsinghua"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+
+[[tool.uv.index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+
+[[tool.uv.index]]
+name = "douban"
+url = "https://pypi.doubanio.com/simple/"
