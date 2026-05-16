@@ -1,5 +1,6 @@
 import pyautogui
 import time
+from src.qq_open import qq_open
 
 
 # def main():
