@@ -1,0 +1,11 @@
+[project]
+name = "qq_send_message"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pyautogui>=0.9.54",
+    "pillow>=11.0.0",
+    "opencv-python>=4.10.0.0",
+]
